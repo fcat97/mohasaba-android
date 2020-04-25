@@ -17,7 +17,7 @@ public abstract class TaskDatabase extends RoomDatabase {
     public abstract TaskDao taskDao();
 
     public static synchronized TaskDatabase/*is the return type*/ getInstance(Context context){
-        if(databaseInstance != null){
+        if(databaseInstance == null){
             databaseInstance = Room.databaseBuilder(context.getApplicationContext(),
                     TaskDatabase.class, "task_database")
                     .fallbackToDestructiveMigration()
