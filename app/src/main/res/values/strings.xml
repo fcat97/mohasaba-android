@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Mohasaba</string>
+    <string name="welcome_text">اسلام عليكم</string>
+    <string name="bismillah_text">بسم الله الر حمن الر حيم</string>
+</resources>
