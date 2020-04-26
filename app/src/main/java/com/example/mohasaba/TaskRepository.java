@@ -20,19 +20,15 @@ public class TaskRepository {
     public void insert(Task task) {
         new InsertTaskAsyncTask(taskDao).execute(task);
     }
-
     public void update(Task task) {
         new UpdateTaskAsyncTask(taskDao).execute(task);
     }
-
     public void delete(Task task) {
         new DeleteTaskAsyncTask(taskDao).execute(task);
     }
-
     public void deleteAllTasks() {
         new DeleteAllTasksAsyncTask(taskDao).execute();
     }
-
     public LiveData<List<Task>> getAllTasks() {
         return allTasks;
     }

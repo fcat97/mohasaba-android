@@ -3,6 +3,8 @@ package com.example.mohasaba;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -18,16 +20,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final RecyclerView recyclerView = findViewById(R.id.recyclerViewId);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setHasFixedSize(true);
+
+        final Task2RecyclerViewAdapter adapter = new Task2RecyclerViewAdapter();
+        recyclerView.setAdapter(adapter);
+
         Objects.requireNonNull(getSupportActionBar()).hide(); /*Hides Action Bar*/
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        /*taskViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+        taskViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
-                Here is the recyclerView
-                Toast.makeText(MainActivity.this, "onChanged", Toast.LENGTH_SHORT).show();
+                adapter.setTasks(tasks);
             }
-        });*/
+        });
 
     }
 }

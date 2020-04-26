@@ -10,7 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
-@Database(entities = {Task.class}, version = 2)
+@Database(entities = {Task.class}, version = 1)
 public abstract class TaskDatabase extends RoomDatabase {
     private static TaskDatabase databaseInstance;
 
@@ -39,8 +39,8 @@ public abstract class TaskDatabase extends RoomDatabase {
     private static class PopulateAsyncTask extends AsyncTask<Void, Void, Void> {
         private TaskDao taskDao;
         private PopulateAsyncTask(TaskDatabase db) {
-            taskDao = db.taskDao();*//*As the 'NoteDatabase instance' is a static object,
-            we don't need to create a instance to use it,
+            taskDao = db.taskDao();*//*As the 'NoteDatabase instance' is a static object,*//*
+            *//*we don't need to create a instance to use it,
             we can directly use the object*//*
         }
         @Override
