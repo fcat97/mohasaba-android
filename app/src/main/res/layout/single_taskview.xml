@@ -86,95 +86,107 @@
                 android:elevation="1dp"/>
 
             <!-- Progress Bar Section -->
-            <ProgressBar
-                android:id="@+id/ProgressBarId"
-                android:layout_width="250dp"
-                android:layout_height="16dp"
-                style="@android:style/Widget.ProgressBar.Horizontal"
-                app:layout_constraintHorizontal_chainStyle="spread_inside"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/progressParentLayoutId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
 
-                android:progressDrawable="@drawable/splash_progressbar_gradient"
-                android:elevation="3dp"
-
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/taskCurrentProgressTextViewId"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/taskTagTextViewId"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
-
-                android:progress="78">
-            </ProgressBar>
-
-            <TextView
-                android:id="@+id/taskCurrentProgressTextViewId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-
-                app:layout_constraintStart_toEndOf="@id/ProgressBarId"
-                app:layout_constraintEnd_toStartOf="@id/taskProgressUnitTextViewId"
-                app:layout_constraintTop_toTopOf="@id/ProgressBarId"
-
-                android:textSize="12sp"
-                android:text="76/100"/>
-
-            <TextView
-                android:id="@+id/taskProgressUnitTextViewId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-
-                app:layout_constraintStart_toEndOf="@id/taskCurrentProgressTextViewId"
-                app:layout_constraintEnd_toStartOf="@id/taskPerTextViewId"
-                app:layout_constraintTop_toTopOf="@id/ProgressBarId"
-
-                android:textSize="12sp"
-                android:text="Glass"/>
-
-            <TextView
-                android:id="@+id/taskPerTextViewId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:gravity="center_vertical"
-
-                app:layout_constraintStart_toEndOf="@id/taskProgressUnitTextViewId"
-                app:layout_constraintEnd_toStartOf="@id/taskTargetId"
-                app:layout_constraintTop_toTopOf="@id/ProgressBarId"
-
-                android:textSize="12sp"
-                android:text="Per"/>
-
-            <TextView
-                android:id="@+id/taskTargetId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:gravity="center_vertical"
-
-                app:layout_constraintStart_toEndOf="@id/taskPerTextViewId"
-                app:layout_constraintEnd_toStartOf="@id/taskTargetUnitId"
-                app:layout_constraintTop_toTopOf="@id/ProgressBarId"
-
-                android:textSize="12sp"
-                android:text="7"/>
-
-            <TextView
-                android:id="@+id/taskTargetUnitId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:gravity="center_vertical"
-
-                app:layout_constraintStart_toEndOf="@id/taskTargetId"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/ProgressBarId"
+                app:layout_constraintBottom_toBottomOf="parent">
 
-                android:textSize="12sp"
-                android:text="Days"
-                android:layout_marginEnd="4dp"/>
+                <ProgressBar
+                    android:id="@+id/progressBarId"
+                    android:layout_width="250dp"
+                    android:layout_height="16dp"
+                    style="@android:style/Widget.ProgressBar.Horizontal"
+                    app:layout_constraintHorizontal_chainStyle="spread_inside"
+
+                    android:progressDrawable="@drawable/splash_progressbar_gradient"
+                    android:elevation="3dp"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/taskCurrentProgressTextViewId"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginBottom="3dp"
+
+                    android:progress="78">
+                </ProgressBar>
+
+                <TextView
+                    android:id="@+id/taskCurrentProgressTextViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+
+                    app:layout_constraintStart_toEndOf="@id/progressBarId"
+                    app:layout_constraintEnd_toStartOf="@id/taskProgressUnitTextViewId"
+                    app:layout_constraintTop_toTopOf="@id/progressBarId"
+
+                    android:textSize="12sp"
+                    android:text="76/100"/>
+
+                <TextView
+                    android:id="@+id/taskProgressUnitTextViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+
+                    app:layout_constraintStart_toEndOf="@id/taskCurrentProgressTextViewId"
+                    app:layout_constraintEnd_toStartOf="@id/taskPerTextViewId"
+                    app:layout_constraintTop_toTopOf="@id/progressBarId"
+
+                    android:textSize="12sp"
+                    android:text="Glass"/>
+
+                <TextView
+                    android:id="@+id/taskPerTextViewId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+
+                    app:layout_constraintStart_toEndOf="@id/taskProgressUnitTextViewId"
+                    app:layout_constraintEnd_toStartOf="@id/taskTargetTimeId"
+                    app:layout_constraintTop_toTopOf="@id/progressBarId"
+
+                    android:textSize="12sp"
+                    android:text="Per"/>
+
+                <TextView
+                    android:id="@+id/taskTargetTimeId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+
+                    app:layout_constraintStart_toEndOf="@id/taskPerTextViewId"
+                    app:layout_constraintEnd_toStartOf="@id/taskTargetUnitId"
+                    app:layout_constraintTop_toTopOf="@id/progressBarId"
+
+                    android:textSize="12sp"
+                    android:text="7"/>
+
+                <TextView
+                    android:id="@+id/taskTargetUnitId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_vertical"
+
+                    app:layout_constraintStart_toEndOf="@id/taskTargetTimeId"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/progressBarId"
+
+                    android:textSize="12sp"
+                    android:text="Days"
+                    android:layout_marginEnd="4dp"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <!-- ProgressBar Section Ends here-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>

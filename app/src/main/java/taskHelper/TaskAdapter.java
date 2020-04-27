@@ -5,9 +5,11 @@ import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -51,22 +53,38 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
         Task currentTask = getItem(position);
         holder.taskTitle.setText(currentTask.getTitle());
         holder.taskDescription.setText(currentTask.getDescription());
+
+        if (position != 2){
+            if(currentTask.getCurrentProgress() != -1) {
+                holder.progressBar.setProgress(currentTask.getCurrentProgress());
+            } else {
+                holder.progressLayout.setVisibility(View.GONE);
+            }
+        }
+
     }
 
     public Task getItemAt(int position) {
         return getItem(position);
     }
 
+    private void setProgress(float currentProgress) {
 
+    }
     class TaskHolder extends RecyclerView.ViewHolder {
         private TextView taskTitle;
         private TextView taskDescription;
+        private ConstraintLayout progressLayout;
+        private ProgressBar progressBar;
+        private TextView CurrentProgressTextView;
 
 
         public TaskHolder(@NonNull View itemView) {
             super(itemView);
             taskTitle = itemView.findViewById(R.id.taskTitleId);
             taskDescription = itemView.findViewById(R.id.taskDescriptionId);
+            progressLayout = itemView.findViewById(R.id.progressParentLayoutId);
+            progressBar = itemView.findViewById(R.id.progressBarId);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

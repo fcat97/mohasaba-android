@@ -22,7 +22,7 @@ public class Splashscreen extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        progressBar = findViewById(R.id.ProgressBarId);
+        progressBar = findViewById(R.id.progressBarId);
 
         Thread thread = new Thread(new Runnable() {
             @Override

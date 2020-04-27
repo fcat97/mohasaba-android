@@ -21,7 +21,7 @@
     </TextView>
 
     <ProgressBar
-        android:id="@+id/ProgressBarId"
+        android:id="@+id/progressBarId"
         android:layout_width="match_parent"
         android:layout_height="10dp"
         style="@android:style/Widget.ProgressBar.Horizontal"
