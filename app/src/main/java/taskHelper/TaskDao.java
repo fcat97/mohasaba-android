@@ -11,7 +11,6 @@ import java.util.List;
 
 @Dao
 public interface TaskDao {
-
     @Insert
     void insert(Task task);
 
@@ -24,6 +23,9 @@ public interface TaskDao {
     @Query("DELETE FROM task_table")
     void deleteAllTasks();
 
-    @Query("SELECT * FROM task_table ORDER BY title DESC")
-    LiveData<List<Task>> getAllTasks();
+    @Query("SELECT * FROM task_table WHERE creator_ID IS NULL ORDER BY task_ID ASC")
+    LiveData<List<Task>> getAllMainTasks();
+
+    @Query("SELECT * FROM task_table WHERE creator_ID IS :creatorId ORDER BY task_ID ASC")
+    LiveData<List<Task>> getSubTasksOf(Long creatorId);
 }

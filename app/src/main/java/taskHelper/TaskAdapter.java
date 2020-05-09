@@ -1,7 +1,5 @@
 package taskHelper;
 
-import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,11 +12,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.mohasaba.AddTaskActivity;
 import com.example.mohasaba.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
     private OnItemClickListener listener;
@@ -30,13 +24,21 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
     public static final DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
         @Override
         public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.getId() == newItem.getId();
+            return oldItem.getTaskId().equals(newItem.getTaskId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.getTitle().equals(newItem.getTitle()) &&
-                    oldItem.getDescription().equals(newItem.getDescription());
+            if(oldItem.getMaxProgress() != null && newItem.getMaxProgress() != null) {
+                return oldItem.getTitle().equals(newItem.getTitle()) &&
+                        oldItem.getDescription().equals(newItem.getDescription()) &&
+                        oldItem.getMaxProgress().equals(newItem.getMaxProgress());
+            } else if(oldItem.getMaxProgress() == null && newItem.getMaxProgress() == null) {
+                return oldItem.getTitle().equals(newItem.getTitle()) &&
+                        oldItem.getDescription().equals(newItem.getDescription());
+            } else {
+                return false;
+            }
         }
     };
 
@@ -54,13 +56,26 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
         holder.taskTitle.setText(currentTask.getTitle());
         holder.taskDescription.setText(currentTask.getDescription());
 
-        if (position != 2){
-            if(currentTask.getCurrentProgress() != -1) {
-                holder.progressBar.setProgress(currentTask.getCurrentProgress());
+        if(currentTask.getMaxProgress() != null) {
+            holder.progressBar.setProgress(currentTask.getProgress());
+
+            String text = currentTask.getProgress() + "/" + currentTask.getMaxProgress();
+            holder.currentProgressTextView.setText(text);
+            holder.progressUnit.setText(currentTask.getProgressUnit());
+
+            if(currentTask.getTargetTime() != 0) {
+                holder.targetTimeTextView.setText(currentTask.getTargetTime());
+                holder.targetUnitTextView.setText(currentTask.getTargetUnit());
             } else {
-                holder.progressLayout.setVisibility(View.GONE);
+                holder.taskPerTextView.setVisibility(View.GONE);
+                holder.targetTimeTextView.setVisibility(View.GONE);
+                holder.targetUnitTextView.setVisibility(View.GONE);
             }
+
+        } else {
+            holder.progressLayout.setVisibility(View.GONE);
         }
+
 
     }
 
@@ -68,15 +83,12 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
         return getItem(position);
     }
 
-    private void setProgress(float currentProgress) {
-
-    }
     class TaskHolder extends RecyclerView.ViewHolder {
-        private TextView taskTitle;
-        private TextView taskDescription;
+        private TextView taskTitle, taskDescription;
         private ConstraintLayout progressLayout;
         private ProgressBar progressBar;
-        private TextView CurrentProgressTextView;
+        private TextView currentProgressTextView, progressUnit, targetTimeTextView, targetUnitTextView;
+        private TextView taskPerTextView;
 
 
         public TaskHolder(@NonNull View itemView) {
@@ -85,6 +97,11 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
             taskDescription = itemView.findViewById(R.id.taskDescriptionId);
             progressLayout = itemView.findViewById(R.id.progressParentLayoutId);
             progressBar = itemView.findViewById(R.id.progressBarId);
+            currentProgressTextView = itemView.findViewById(R.id.taskCurrentProgressTextViewId);
+            progressUnit = itemView.findViewById(R.id.taskProgressUnitTextViewId);
+            targetTimeTextView = itemView.findViewById(R.id.taskTargetTimeId);
+            targetUnitTextView = itemView.findViewById(R.id.taskTargetUnitId);
+            taskPerTextView = itemView.findViewById(R.id.taskPerTextViewId);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

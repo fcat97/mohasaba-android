@@ -10,12 +10,12 @@ import java.util.List;
 
 public class TaskViewModel extends AndroidViewModel {
     private TaskRepository taskRepository;
-    private LiveData<List<Task>> allTasks;
+    private LiveData<List<Task>> allMainTasks;
 
     public TaskViewModel(@NonNull Application application) {
         super(application);
         taskRepository = new TaskRepository(application);
-        allTasks = taskRepository.getAllTasks();
+        allMainTasks = taskRepository.getAllMainTasks();
     }
 
     public void insert(Task task) {
@@ -30,8 +30,11 @@ public class TaskViewModel extends AndroidViewModel {
     public void deleteAllTasks() {
         taskRepository.deleteAllTasks();
     }
+    public LiveData<List<Task>> getSubTasksOf(Task task) {
+        return taskRepository.getSubTasksOf(task);
+    }
 
-    public LiveData<List<Task>> getAllTasks() {
-        return allTasks;
+    public LiveData<List<Task>> getAllMainTasks() {
+        return allMainTasks;
     }
 }

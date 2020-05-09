@@ -1,68 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="8dp"
     android:background="@color/cardview_light_background"
     tools:context=".AddTaskActivity">
 
-        <EditText
-            android:id="@+id/addTaskTitleID"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            <EditText
+                android:id="@+id/addTaskTitleID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
 
-            android:hint="Enter Title"
-            android:textColor="#3F51B5"
-            android:textColorHint="#00BCD4"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="2dp"
+                android:hint="Enter Title"
+                android:textColor="#3F51B5"
+                android:textColorHint="#00BCD4"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="3dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginStart="32dp"
 
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/addTaskDescriptionId"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-        <EditText
-            android:id="@+id/addTaskDescriptionId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="150dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            <EditText
+                android:id="@+id/addTaskDescriptionId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="60dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
 
-            android:hint="Description..."
-            android:textColor="#009688"
-            android:textColorHint="#00BCD4"
-            android:textAlignment="viewStart"
-            android:gravity="start"
-            android:layout_marginBottom="2dp"
+                android:hint="Description..."
+                android:textColor="#009688"
+                android:textColorHint="#00BCD4"
+                android:textAlignment="viewStart"
+                android:gravity="start"
+                android:layout_marginBottom="2dp"
 
-            app:layout_constraintTop_toBottomOf="@id/addTaskTitleID"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/addTaskTitleID"
+                app:layout_constraintBottom_toTopOf="@id/addTaskCancelButtonId"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
-    <ImageButton
+    <Button
         android:id="@+id/addTaskSaveButtonId"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_save"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+
+        android:text="Save"
+        android:textColor="@color/colorPrimary"
+
+        android:drawableStart="@drawable/ic_save"
+        android:elevation="6dp"
         android:clickable="true"
         android:background="@color/cardview_light_background"
+
+        android:layout_marginEnd="6dp"
 
         app:layout_constraintTop_toBottomOf="@id/addTaskDescriptionId"
         app:layout_constraintEnd_toEndOf="parent"
         android:focusable="true" />
 
-    <ImageButton
+    <Button
         android:id="@+id/addTaskCancelButtonId"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/ic_close"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:text="Cancel"
+        android:textColor="@color/colorAccent"
+        android:drawableStart="@drawable/ic_close"
         android:background="@color/cardview_light_background"
+        android:elevation="6dp"
 
-
+        android:layout_marginEnd="6dp"
         app:layout_constraintTop_toBottomOf="@id/addTaskDescriptionId"
         app:layout_constraintEnd_toStartOf="@id/addTaskSaveButtonId" />
+
+    <Button
+        android:id="@+id/addTaskNewFeatureId"
+        android:layout_width="wrap_content"
+        android:layout_height="28dp"
+        android:text="New Feature"
+        android:textColor="@android:color/holo_orange_dark"
+
+        android:padding="2dp"
+
+        android:drawableStart="@drawable/ic_add_orange"
+        android:background="@color/cardview_light_background"
+        android:elevation="6dp"
+
+        android:layout_marginEnd="6dp"
+        app:layout_constraintTop_toBottomOf="@id/addTaskDescriptionId"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/addTaskTargetLLId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+
+        android:layout_marginTop="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addTaskNewFeatureId">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Target:"/>
+
+        <EditText
+            android:id="@+id/addTaskTargetEditTextId"
+            android:layout_width="48dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:inputType="numberSigned"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit:"/>
+
+        <EditText
+            android:id="@+id/addTaskTargetUnitEditTextId"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

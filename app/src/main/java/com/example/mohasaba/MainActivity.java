@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Objects.requireNonNull(getSupportActionBar()).hide(); /*Hides Action Bar*/
+        Objects.requireNonNull(getSupportActionBar()).hide();/*Hides Action Bar*/
 
         final RecyclerView recyclerView = findViewById(R.id.recyclerViewId);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -43,24 +43,31 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        taskViewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+        taskViewModel.getAllMainTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 adapter.submitList(tasks);
             }
         });
 
+        /*Listener for EditActivity*/
         adapter.setOnItemClickListener(new TaskAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(Task task) {
                 Intent intent = new Intent(MainActivity.this,AddTaskActivity.class);
                 intent.putExtra(AddTaskActivity.EXTRA_TITLE, task.getTitle());
                 intent.putExtra(AddTaskActivity.EXTRA_DESCRIPTION, task.getDescription());
-                intent.putExtra(AddTaskActivity.EXTRA_ID, task.getId());
+                intent.putExtra(AddTaskActivity.EXTRA_ID, task.getTaskId());
+                if(task.getMaxProgress() != null) {
+                    intent.putExtra(AddTaskActivity.EXTRA_MAX_PROGRESS, String.valueOf(task.getMaxProgress()));
+                    intent.putExtra(AddTaskActivity.EXTRA_MAX_PROGRESS_UNIT,task.getProgressUnit());
+                }
+
                 startActivityForResult(intent,EDIT_NOTE_REQUEST);
             }
         });
 
+        /*Swipe Left to Delete Feature*/
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).attachToRecyclerView(recyclerView);
 
+        /*Floating Add Button and its Listener*/
         floatingAddButton = findViewById(R.id.floatingAddButtonId);
         floatingAddButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,11 +98,20 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddTaskActivity.EXTRA_DESCRIPTION);
 
-            Task newTask = new Task(title,description);
+            Task newTask = new Task(title);
+            newTask.setDescription(description);
+
+            if(data.hasExtra(AddTaskActivity.EXTRA_MAX_PROGRESS)) {
+                String maxProgress = data.getStringExtra(AddTaskActivity.EXTRA_MAX_PROGRESS);
+                String maxProgressUnit = data.getStringExtra(AddTaskActivity.EXTRA_MAX_PROGRESS_UNIT);
+                newTask.setMaxProgress(Integer.parseInt(maxProgress));
+                newTask.setProgressUnit(maxProgressUnit);
+            }
+
             taskViewModel.insert(newTask);
             Toast.makeText(this, "Task Added", Toast.LENGTH_SHORT).show();
         } else if(requestCode == EDIT_NOTE_REQUEST && resultCode == RESULT_OK) {
-            int id = data.getIntExtra(AddTaskActivity.EXTRA_ID,-1);
+            long id = data.getLongExtra(AddTaskActivity.EXTRA_ID,-1);
             if (id == -1) {
                 Toast.makeText(this, "Data not updated", Toast.LENGTH_SHORT).show();
                 return;
@@ -102,10 +119,18 @@ public class MainActivity extends AppCompatActivity {
             String title = data.getStringExtra(AddTaskActivity.EXTRA_TITLE);
             String description = data.getStringExtra(AddTaskActivity.EXTRA_DESCRIPTION);
 
-            Task newTask = new Task(title,description);
-            newTask.setId(id);
+            Task newTask = new Task(title);
+            newTask.setTaskId(id);
+            newTask.setDescription(description);
+
+            if(data.hasExtra(AddTaskActivity.EXTRA_MAX_PROGRESS)) {
+                String maxProgress = data.getStringExtra(AddTaskActivity.EXTRA_MAX_PROGRESS);
+                String maxProgressUnit = data.getStringExtra(AddTaskActivity.EXTRA_MAX_PROGRESS_UNIT);
+                newTask.setMaxProgress(Integer.parseInt(maxProgress));
+                newTask.setProgressUnit(maxProgressUnit);
+            }
             taskViewModel.update(newTask);
-            Toast.makeText(this, "Task Updted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Task Updated", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Task not Added", Toast.LENGTH_SHORT).show();
         }
