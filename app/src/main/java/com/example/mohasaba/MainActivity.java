@@ -21,6 +21,7 @@ import java.util.Objects;
 
 import taskHelper.Task;
 import taskHelper.TaskAdapter;
+import taskHelper.TaskStat;
 import taskHelper.TaskViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         taskViewModel = new ViewModelProvider(this).get(TaskViewModel.class);
-        taskViewModel.getAllMainTasks().observe(this, new Observer<List<Task>>() {
+        taskViewModel.getAllInCompletedTasks().observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
                 adapter.submitList(tasks);
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         /*Swipe Left to Delete Feature*/
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -76,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                taskViewModel.delete(adapter.getItemAt(viewHolder.getAdapterPosition()));
+                if(direction == ItemTouchHelper.LEFT) {
+                    taskViewModel.delete(adapter.getItemAt(viewHolder.getAdapterPosition()));
+                } else if(direction == ItemTouchHelper.RIGHT){
+
+                }
+
             }
         }).attachToRecyclerView(recyclerView);
 

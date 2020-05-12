@@ -3,7 +3,10 @@ package taskHelper;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 @Entity(tableName = "task_table",
         foreignKeys = @ForeignKey(entity = Task.class, parentColumns = "task_ID",
@@ -11,6 +14,8 @@ import androidx.room.PrimaryKey;
                 onDelete = ForeignKey.CASCADE))
 
 public class Task {
+
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>VARIABLE DECLARATION ZONE*/
     @PrimaryKey
     @ColumnInfo(name = "task_ID")
     private Long taskId;
@@ -25,11 +30,14 @@ public class Task {
     private int targetTime;
     private String targetUnit;
 
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<VARIABLE DECLARATION ZONE*/
+
     public Task(String title){
         this.taskId = IdGenerator.generate();
         this.title = title;
     }
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ALL THE GETTERS*/
     public Long getTaskId() {
         return taskId;
     }
@@ -57,7 +65,9 @@ public class Task {
     public String getTargetUnit() {
         return targetUnit;
     }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<ALL THE GETTERS*/
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ALL THE SETTERS*/
     public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
@@ -86,10 +96,13 @@ public class Task {
     public void setTargetUnit(String targetUnit) {
         this.targetUnit = targetUnit;
     }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<ALL THE SETTERS*/
 
+    /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ADDITIONAL METHODS ZONE*/
     public Task createSubTask(String title){
         Task newTask = new Task(title);
         newTask.setCreatorId(this.getTaskId());
         return newTask;
     }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<ADDITIONAL METHODS ZONE*/
 }

@@ -9,16 +9,17 @@ import java.util.List;
 
 public class TaskRepository {
     private TaskDao taskDao;
-    private LiveData<List<Task>> allMainTasks;
 
     public TaskRepository (Application/*is similar to Context*/application){
         TaskDatabase database = TaskDatabase.getInstance(application);
         taskDao = database.taskDao();
-        allMainTasks = taskDao.getAllMainTasks();
     }
 
     public void insert(Task task) {
         new InsertTaskAsyncTask(taskDao).execute(task);
+    }
+    public void insertStat(TaskStat taskStat) {
+        new InsertTaskStatAsyncTask(taskDao).execute(taskStat);
     }
     public void update(Task task) {
         new UpdateTaskAsyncTask(taskDao).execute(task);
@@ -31,7 +32,13 @@ public class TaskRepository {
     }
 
     public LiveData<List<Task>> getAllMainTasks() {
-        return allMainTasks;
+        return taskDao.getAllMainTasks();
+    }
+    public LiveData<List<Task>> getAllInCompletedTasks() {
+        return taskDao.getAllInCompletedTasks();
+    }
+    public LiveData<List<Task>> getAllCompletedTasks() {
+        return taskDao.getAllCompletedTasks();
     }
     public LiveData<List<Task>> getSubTasksOf(Task task) {
         return taskDao.getSubTasksOf(task.getTaskId());
@@ -45,6 +52,17 @@ public class TaskRepository {
         @Override
         protected Void doInBackground(Task... tasks) {
             taskDao.insert(tasks[0]);
+            return null;
+        }
+    }
+    private static class InsertTaskStatAsyncTask extends AsyncTask<TaskStat, Void, Void> {
+        private TaskDao taskDao;
+        private InsertTaskStatAsyncTask(TaskDao taskDao) {
+            this.taskDao = taskDao;
+        }
+        @Override
+        protected Void doInBackground(TaskStat... taskStats) {
+            taskDao.insertStat(taskStats[0]);
             return null;
         }
     }
