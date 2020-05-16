@@ -15,11 +15,9 @@ public class TaskRepository {
         taskDao = database.taskDao();
     }
 
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
     public void insert(Task task) {
         new InsertTaskAsyncTask(taskDao).execute(task);
-    }
-    public void insertStat(TaskStat taskStat) {
-        new InsertTaskStatAsyncTask(taskDao).execute(taskStat);
     }
     public void update(Task task) {
         new UpdateTaskAsyncTask(taskDao).execute(task);
@@ -31,19 +29,6 @@ public class TaskRepository {
         new DeleteAllTasksAsyncTask(taskDao).execute();
     }
 
-    public LiveData<List<Task>> getAllMainTasks() {
-        return taskDao.getAllMainTasks();
-    }
-    public LiveData<List<Task>> getAllInCompletedTasks() {
-        return taskDao.getAllInCompletedTasks();
-    }
-    public LiveData<List<Task>> getAllCompletedTasks() {
-        return taskDao.getAllCompletedTasks();
-    }
-    public LiveData<List<Task>> getSubTasksOf(Task task) {
-        return taskDao.getSubTasksOf(task.getTaskId());
-    }
-
     private static class InsertTaskAsyncTask extends AsyncTask<Task, Void, Void> {
         private TaskDao taskDao;
         private InsertTaskAsyncTask(TaskDao taskDao) {
@@ -52,17 +37,6 @@ public class TaskRepository {
         @Override
         protected Void doInBackground(Task... tasks) {
             taskDao.insert(tasks[0]);
-            return null;
-        }
-    }
-    private static class InsertTaskStatAsyncTask extends AsyncTask<TaskStat, Void, Void> {
-        private TaskDao taskDao;
-        private InsertTaskStatAsyncTask(TaskDao taskDao) {
-            this.taskDao = taskDao;
-        }
-        @Override
-        protected Void doInBackground(TaskStat... taskStats) {
-            taskDao.insertStat(taskStats[0]);
             return null;
         }
     }
@@ -99,5 +73,52 @@ public class TaskRepository {
             taskDao.deleteAllTasks();
             return null;
         }
+    }
+
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    public void insertStat(TaskStat taskStat) {
+        new InsertTaskStatAsyncTask(taskDao).execute(taskStat);
+    }
+    public void updateStat(TaskStat taskStat) {
+        new UpdateStatAsyncTask(taskDao).execute(taskStat);
+    }
+    public TaskStat getTaskStatOf(Task task) {
+        return taskDao.getTaskStatOf(task.getTaskId());
+    }
+
+    private static class InsertTaskStatAsyncTask extends AsyncTask<TaskStat, Void, Void> {
+        private TaskDao taskDao;
+        private InsertTaskStatAsyncTask(TaskDao taskDao) {
+            this.taskDao = taskDao;
+        }
+        @Override
+        protected Void doInBackground(TaskStat... taskStats) {
+            taskDao.insertStat(taskStats[0]);
+            return null;
+        }
+    }
+    private static class UpdateStatAsyncTask extends AsyncTask<TaskStat, Void, Void> {
+        private TaskDao taskDao;
+        private UpdateStatAsyncTask(TaskDao taskDao) {
+            this.taskDao = taskDao;
+        }
+        @Override
+        protected Void doInBackground(TaskStat... taskStats) {
+            taskDao.updateStat(taskStats[0]);
+            return null;
+        }
+    }
+    /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+    public LiveData<List<Task>> getAllMainTasks() {
+        return taskDao.getAllMainTasks();
+    }
+    public LiveData<List<Task>> getAllInCompletedTasks() {
+        return taskDao.getAllInCompletedTasks();
+    }
+    public LiveData<List<Task>> getAllCompletedTasks() {
+        return taskDao.getAllCompletedTasks();
+    }
+    public LiveData<List<Task>> getSubTasksOf(Task task) {
+        return taskDao.getSubTasksOf(task.getTaskId());
     }
 }

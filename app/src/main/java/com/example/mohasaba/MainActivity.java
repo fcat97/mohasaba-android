@@ -21,7 +21,6 @@ import java.util.Objects;
 
 import taskHelper.Task;
 import taskHelper.TaskAdapter;
-import taskHelper.TaskStat;
 import taskHelper.TaskViewModel;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,10 +65,17 @@ public class MainActivity extends AppCompatActivity {
 
                 startActivityForResult(intent,EDIT_NOTE_REQUEST);
             }
+
+            @Override
+            public void onItemLongClick(Task task) {
+                taskViewModel.incrementProgress(task);
+                adapter.notifyDataSetChanged();
+            }
         });
 
         /*Swipe Left to Delete Feature*/
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
@@ -79,8 +85,6 @@ public class MainActivity extends AppCompatActivity {
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 if(direction == ItemTouchHelper.LEFT) {
                     taskViewModel.delete(adapter.getItemAt(viewHolder.getAdapterPosition()));
-                } else if(direction == ItemTouchHelper.RIGHT){
-
                 }
 
             }

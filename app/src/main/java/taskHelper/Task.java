@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey;
 import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
+import java.util.List;
+
 @Entity(tableName = "task_table",
         foreignKeys = @ForeignKey(entity = Task.class, parentColumns = "task_ID",
                 childColumns = "creator_ID",
@@ -24,6 +26,10 @@ public class Task {
     private Long creatorId;
     private String title;
     private String description;
+
+    @TypeConverters({DataConverter.class})
+    private List<String> tags;
+
     private int progress;
     private Integer maxProgress;
     private String progressUnit;
@@ -49,6 +55,9 @@ public class Task {
     }
     public String getDescription() {
         return description;
+    }
+    public List<String> getTags() {
+        return tags;
     }
     public int getProgress() {
         return progress;
@@ -81,6 +90,9 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
     public void setProgress(int progress) {
         this.progress = progress;
     }
@@ -104,5 +116,9 @@ public class Task {
         newTask.setCreatorId(this.getTaskId());
         return newTask;
     }
+    public void addTags(String newTag) {
+        tags.add(newTag);
+    }
     /*<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<ADDITIONAL METHODS ZONE*/
 }
+

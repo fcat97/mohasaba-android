@@ -20,11 +20,17 @@ public interface TaskDao {
     @Update
     void update(Task task);
 
+    @Update
+    void updateStat(TaskStat taskStat);
+
     @Delete
     void delete(Task task);
 
     @Query("DELETE FROM task_table")
     void deleteAllTasks();
+
+    @Query("SELECT * FROM task_statistics WHERE owner_ID is :ownerId")
+    TaskStat getTaskStatOf(long ownerId);
 
     @Query("SELECT * FROM task_table WHERE creator_ID IS NULL ORDER BY task_ID ASC")
     LiveData<List<Task>> getAllMainTasks();

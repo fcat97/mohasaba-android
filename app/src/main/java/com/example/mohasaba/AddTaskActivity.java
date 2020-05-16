@@ -38,6 +38,7 @@ public class AddTaskActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide();
 
         titleEditText = findViewById(R.id.addTaskTitleID);
+        titleEditText.setMaxLines(1);
         descriptionEditText = findViewById(R.id.addTaskDescriptionId);
         maxProgressEditText = findViewById(R.id.addTaskTargetEditTextId);
         maxProgressUnitEditText = findViewById(R.id.addTaskTargetUnitEditTextId);

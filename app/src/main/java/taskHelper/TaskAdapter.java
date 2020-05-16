@@ -16,6 +16,7 @@ import com.example.mohasaba.R;
 
 public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
     private OnItemClickListener listener;
+    private static TaskManager taskManager = new TaskManager();
 
     public TaskAdapter() {
         super(DIFF_CALLBACK);
@@ -29,16 +30,7 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
 
         @Override
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            if(oldItem.getMaxProgress() != null && newItem.getMaxProgress() != null) {
-                return oldItem.getTitle().equals(newItem.getTitle()) &&
-                        oldItem.getDescription().equals(newItem.getDescription()) &&
-                        oldItem.getMaxProgress().equals(newItem.getMaxProgress());
-            } else if(oldItem.getMaxProgress() == null && newItem.getMaxProgress() == null) {
-                return oldItem.getTitle().equals(newItem.getTitle()) &&
-                        oldItem.getDescription().equals(newItem.getDescription());
-            } else {
-                return false;
-            }
+            return taskManager.areTheseSame(oldItem, newItem);
         }
     };
 
@@ -57,6 +49,8 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
         holder.taskDescription.setText(currentTask.getDescription());
 
         if(currentTask.getMaxProgress() != null) {
+            holder.progressBar.setVisibility(View.VISIBLE);
+            holder.progressBar.setMax(currentTask.getMaxProgress());
             holder.progressBar.setProgress(currentTask.getProgress());
 
             String text = currentTask.getProgress() + "/" + currentTask.getMaxProgress();
@@ -112,11 +106,26 @@ public class TaskAdapter extends ListAdapter<Task, TaskAdapter.TaskHolder> {
                     }
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    int position = getAdapterPosition();
+                    if (listener != null && position != RecyclerView.NO_POSITION) {
+                        listener.onItemLongClick(getItemAt(position));
+                    }
+                    return true;
+                }
+            });
         }
     }
 
-    public interface OnItemClickListener {
+    public interface OnItemClickListener {/*Interface doesn't have any body
+    this is declared when it is used. As clicking on an item will take to an specific activity of
+    this task where all the elements will be same as this task parameter that's why we used an interface
+    Here this task means on what we clicked and will be passed to mainActivity*/
         void onItemClick(Task task);
+        void onItemLongClick(Task task);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
